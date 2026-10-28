@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "auxly": {
+      "command": "node",
+      "args": [
+        "c:\\Users\\chahat\\.vscode\\extensions\\tzamun-arabia.auxly-extension-0.1.8\\dist\\mcp-server\\index.js"
+      ],
+      "env": {
+        "AUXLY_WORKSPACE_PATH": "c:\\Users\\chahat\\Downloads\\Chahat,Gagan,Narai(Minor Project\\cyber-quest",
+        "AUXLY_API_URL": "https://auxly.tzamun.com"
+      }
+    }
+  }
+}

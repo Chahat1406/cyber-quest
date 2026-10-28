@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#09111d" />
+    <meta name="description" content="Cyber Quest: a story-driven cybersecurity awareness game." />
+    <title>Cyber Quest — Digital Survival</title>
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="game-canvas" aria-label="Cyber Quest 3D game world"></canvas>
+      <div id="loading-screen" class="loading-screen">
+        <div class="loading-mark">CQ</div>
+        <p>INITIALIZING DIGITAL CITY</p>
+        <div class="loading-track"><span></span></div>
+      </div>
+      <div id="game-ui" class="game-ui">
+        <header class="topbar">
+          <a class="brand" href="#" aria-label="Cyber Quest home"><span class="brand-mark">CQ</span><span>CYBER<span class="brand-accent">QUEST</span><small>DIGITAL SURVIVAL PROTOCOL</small></span></a>
+          <nav id="chapter-nav" class="chapter-nav" aria-label="Chapter navigation"><button class="chapter-tab active" data-chapter="1">01 Campus</button><button class="chapter-tab" data-chapter="2">02 Data City</button><button class="chapter-tab" data-chapter="3">03 Firewall</button><button class="chapter-tab" data-chapter="4">04 Data Vault</button><button class="chapter-tab" data-chapter="5">05 Core</button></nav>
+          <div class="topbar-right">
+            <div class="status-chip"><i class="status-dot"></i> SIMULATION ONLINE</div>
+            <button id="sound-btn" class="icon-btn" title="Toggle ambience" aria-label="Toggle ambience">♫</button>
+            <button id="pause-btn" class="icon-btn" title="Pause game" aria-label="Pause game">Ⅱ</button>
+          </div>
+        </header>
+
+        <aside class="gta-minimap panel" aria-label="Mini-map navigation">
+          <div class="minimap-heading"><span><i class="minimap-live"></i> NAVIGATION</span><strong id="minimap-chapter">01 / CAMPUS</strong></div>
+          <div class="minimap-frame"><canvas id="minimap-canvas" width="220" height="220" aria-label="Top-down mini-map showing John and nearby objectives"></canvas><div class="minimap-north">N</div><div class="minimap-player-pip" aria-hidden="true"></div></div>
+          <div class="minimap-legend"><span><i class="legend-player"></i> JOHN</span><span><i class="legend-objective"></i> OBJECTIVE</span></div>
+        </aside>
+
+        <aside class="mission-panel panel">
+          <div class="eyebrow">CURRENT OBJECTIVE <span class="live-pip"></span></div>
+          <h2 id="mission-title">Welcome to the Grid</h2>
+          <p id="mission-desc">Find Maya near the college entrance.</p>
+          <div class="objective-progress"><span id="mission-progress"></span></div>
+          <div class="mission-foot"><span id="mission-count">CHAPTER 01 · 0/3</span><span id="mission-xp">0 XP</span></div>
+        </aside>
+
+        <aside class="stats-panel panel">
+          <div class="stat-row"><span class="stat-icon">⬡</span><div><small>CYBER XP</small><strong id="xp-value">000</strong></div></div>
+          <div class="xp-track"><span id="xp-bar"></span></div>
+          <div class="stat-row integrity-row"><span class="stat-icon shield">◇</span><div><small>DIGITAL INTEGRITY</small><strong id="integrity-value">100%</strong></div></div>
+          <div class="integrity-track"><span id="integrity-bar"></span></div>
+        </aside>
+
+        <div id="interaction-hint" class="interaction-hint"><kbd>E</kbd><span>INTERACT</span></div>
+        <div class="crosshair" aria-hidden="true"><span></span><span></span></div>
+        <div class="controls-hint"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd><span>MOVE</span><i></i><kbd>SHIFT</kbd><span>RUN</span><i></i><kbd>E</kbd><span>INTERACT</span><i></i><kbd>ESC</kbd><span>PAUSE</span></div>
+
+        <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+        <section id="dialogue-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="dialogue-title">
+          <div class="modal-card dialogue-card">
+            <div class="modal-topline"><span id="dialogue-tag" class="eyebrow">MISSION BRIEFING</span><button class="close-btn" data-close="dialogue-modal" aria-label="Close">×</button></div>
+            <div class="dialogue-content">
+              <div id="dialogue-avatar" class="dialogue-avatar">M</div>
+              <div class="dialogue-copy"><h2 id="dialogue-title">Maya</h2><p id="dialogue-text"></p></div>
+            </div>
+            <div id="dialogue-options" class="dialogue-options"></div>
+            <div class="modal-footer"><span>CYBER QUEST // TRAINING SIMULATION</span><span>YOUR CHOICE SHAPES THE OUTCOME</span></div>
+          </div>
+        </section>
+
+        <section id="computer-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="computer-title">
+          <div class="modal-card computer-card">
+            <div class="modal-topline"><span class="eyebrow">SECURE WORKSTATION // OFFLINE SIMULATION</span><button class="close-btn" data-close="computer-modal" aria-label="Close">×</button></div>
+            <div class="computer-window">
+              <aside class="computer-sidebar"><div class="mini-brand">CQ<span>OS</span></div><div class="side-link active">▣ Inbox</div><div class="side-link">▤ Security</div><div class="side-link">▧ Reports</div><div class="side-label">SIMULATED DEVICE</div><div class="device-state"><span class="status-dot"></span> Isolated environment</div></aside>
+              <div class="computer-main">
+                <div class="computer-heading"><div><span class="eyebrow">COLLEGE MAIL / INBOX</span><h2 id="computer-title">One message needs your attention</h2></div><span class="mail-count">1 UNREAD</span></div>
+                <div id="computer-content"></div>
+              </div>
+            </div>
+            <div class="modal-footer"><span>NO REAL EMAILS OR CREDENTIALS ARE USED</span><span>FICTIONAL TRAINING ENVIRONMENT</span></div>
+          </div>
+        </section>
+
+        <section id="pause-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="pause-title">
+          <div class="modal-card pause-card"><div class="brand-mark large">CQ</div><p class="eyebrow">SIMULATION PAUSED</p><h2 id="pause-title">Take a breath, operator.</h2><p class="muted">Your progress is saved locally in this browser.</p><button id="resume-btn" class="primary-btn">RESUME MISSION <span>→</span></button><button id="restart-btn" class="text-btn">Restart chapter</button></div>
+        </section>
+
+        <section id="start-modal" class="modal start-modal" role="dialog" aria-modal="true" aria-labelledby="start-title">
+          <div class="start-card">
+            <div class="start-art">
+              <div class="art-grid"></div><div class="art-sun"></div><div class="art-building b1"></div><div class="art-building b2"></div><div class="art-building b3"></div><div class="art-character"><span></span></div>
+              <div class="art-label">SECTOR 01 <b>THE COLLEGE DISTRICT</b></div>
+            </div>
+            <div class="start-copy">
+              <div class="eyebrow"><span class="live-pip"></span> INTERACTIVE CYBERSECURITY ADVENTURE</div>
+              <h1 id="start-title">CYBER<br><span>QUEST</span></h1>
+              <p class="start-subtitle">Your digital world is under attack.<br><strong>Think before you click.</strong></p>
+              <p class="start-story">John’s best friend Alex has been pulled into CYBERGATE, a mysterious computer world. Travel through five digital locations, solve timed cybersecurity challenges, uncover the Warden’s plan, and rescue Alex before his identity is erased.</p>
+              <div class="chapter-card"><div class="chapter-number">01</div><div><small>CHAPTER ONE</small><strong>The Suspicious Signal</strong><span>4 missions · 30-second challenges</span></div><span class="chapter-lock">START HERE ↗</span></div>
+              <div class="start-actions"><button id="start-btn" class="primary-btn">NEW GAME <span>＋</span></button><button id="load-btn" class="secondary-btn">LOAD GAME <span>↗</span></button></div><p id="save-status" class="save-status">No saved progress found on this browser.</p>
+              <div class="start-controls"><span><kbd>WASD</kbd> MOVE</span><span><kbd>E</kbd> INTERACT</span><span><kbd>ESC</kbd> PAUSE</span></div>
+              <p class="fine-print">FICTIONAL, SAFE SIMULATIONS · NO REAL NETWORK ACTIONS</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="ending-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="ending-title">
+          <div class="modal-card ending-card"><div class="ending-emblem">◇</div><p class="eyebrow">CHAPTER COMPLETE</p><h2 id="ending-title">You protected the district.</h2><p id="ending-copy" class="muted"></p><div class="ending-stats"><div><small>CYBER XP</small><strong id="ending-xp">0</strong></div><div><small>INTEGRITY</small><strong id="ending-integrity">100%</strong></div><div><small>MISSIONS</small><strong>5 / 5</strong></div></div><h3>FIELD REPORT</h3><div id="ending-lessons" class="lesson-list"></div><button id="ending-restart" class="primary-btn">PLAY CHAPTER AGAIN <span>↻</span></button></div>
+        </section>
+
+        <div id="challenge-timer" class="challenge-timer hidden"><span id="timer-label">TIME REMAINING</span><strong id="timer-value">30</strong></div>
+        <div id="objective-marker" class="objective-marker hidden"><span class="marker-line"></span><span id="marker-label">OBJECTIVE</span></div>
+      </div>
+    </div>
+    <script type="module">
+  fetch("/api/me")
+    .then((response) => {
+      if (response.ok) {
+        import("/src/main.ts");
+      } else {
+        window.location.replace("/login.html");
+      }
+    })
+    .catch(() => {
+      window.location.replace("/login.html");
+    });
+</script>
+   
+  </body>
+</html>
