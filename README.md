@@ -8,13 +8,13 @@ John's friend Alex has been pulled into CYBERGATE, a mysterious computer world. 
 
 ## Chapters and locations
 
-1. **The Suspicious Signal** — Digital College Campus. Four missions: phishing awareness, unknown USB safety, account protection, and secure network routing. Workstation questions have a 30-second timer.
+1. **The Suspicious Signal** — Digital College Campus. Four missions: phishing awareness, unknown USB safety, account protection, and secure network routing.
 2. **The Hidden Intruder** — Abandoned Data City. Timed incident-investigation questions.
 3. **Network Under Attack** — Firewall Fortress. Timed network defense and containment questions.
 4. **The Data Heist** — The Lost Data Vault. Timed evidence-handling and recovery questions.
-5. **Digital Guardian** — Core of CYBERGATE. A 120-second final challenge to rescue Alex.
+5. **Digital Guardian** — Core of CYBERGATE. A final challenge to rescue Alex.
 
-Each chapter has a different environment palette, architecture, and map layout. The chapter navigation bar shows the current chapter and completed chapters. Chapters unlock in sequence.
+Each chapter has a different environment and map layout. Chapters unlock in sequence.
 
 ## Controls
 
@@ -23,7 +23,6 @@ Each chapter has a different environment palette, architecture, and map layout. 
 - **E**: interact with a nearby character or console
 - **Mouse**: look around
 - **Esc**: close a dialogue or pause
-- Use the chapter navigation bar to visit unlocked locations.
 
 ## Run locally
 
@@ -42,10 +41,6 @@ To create a production build:
 npm run build
 npm run preview
 ```
-
-## Save data
-
-Progress, XP, integrity, completed missions, and unlocked chapters are stored in the browser's local storage. Use **Restart chapter** to reset the local save.
 
 ## Safety note
 
